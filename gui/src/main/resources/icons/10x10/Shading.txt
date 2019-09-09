@@ -1,0 +1,6 @@
+Gimp:
+
+Increase canvas by 1px
+Copy of image, 1px lower, 1px to the right
+Colorize -> Saturation=0, Lightness=-50
+Decrease image by 1px

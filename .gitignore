@@ -1,0 +1,44 @@
+# Various #
+*.class
+*.log
+target/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+local.properties
+.settings/
+.project
+.classpath
+
+### Intellij ###
+.idea/
+
+### NetBeans ###
+**/nbproject/**
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# --- project specific --- #
+
+
+
+
