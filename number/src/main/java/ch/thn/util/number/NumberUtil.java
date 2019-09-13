@@ -30,6 +30,7 @@ public class NumberUtil {
   // Number types for easier if/switch etc. usage (so that instanceof does not need to be used)
   private static final HashMap<Class<?>, OperationType> types =
       new LinkedHashMap<Class<?>, OperationType>();
+
   static {
     types.put(Short.class, OperationType.SHORT);
     types.put(Integer.class, OperationType.INTEGER);
@@ -41,6 +42,7 @@ public class NumberUtil {
   // Shared decimal patterns
   private static final HashMap<Integer, DecimalFormat> roundDecimals =
       new LinkedHashMap<Integer, DecimalFormat>();
+
   static {
     roundDecimals.put(1, new DecimalFormat("#.#"));
     roundDecimals.put(2, new DecimalFormat("#.##"));
@@ -54,6 +56,7 @@ public class NumberUtil {
   // Some predefined digit patterns
   private static final HashMap<Integer, String[]> digitPattern =
       new LinkedHashMap<Integer, String[]>();
+
   static {
     digitPattern.put(1, new String[] {"#", "0"});
     digitPattern.put(2, new String[] {"##", "00"});
@@ -147,12 +150,13 @@ public class NumberUtil {
     StringBuilder sb = new StringBuilder(minNumberOfDigits + maxNumberOfDecimals);
 
     if (currency || internationalCurrency) {
-      // Will be replaced by the currency symbol
-      sb.append("\u00A4");
+      // Having a single 'CURRENCY SIGN' in the pattern will be replaced by the currency symbol
+      sb.append("\u00A4"); // Unicode Character 'CURRENCY SIGN'
 
       if (internationalCurrency) {
-        // Two currency symbols are replaced with the international currency symbol
-        sb.append("\u00A4");
+        // Having a second 'CURRENCY SIGN' in the pattern will be replaced with the international
+        // currency symbol
+        sb.append("\u00A4"); // Unicode Character 'CURRENCY SIGN'
       }
     }
 
@@ -522,13 +526,13 @@ public class NumberUtil {
    */
   public static ArrayList<Number> generateRandomNumbers(int count, Number min, Number max) {
     Random random = new Random();
-    ArrayList<Number> numbers = new ArrayList<Number>(count);
+    ArrayList<Number> numbers = new ArrayList<>(count);
 
     OperationType type = getOperationType(min, max);
 
     if (type == OperationType.SHORT) {
       // Including the maximum number (from min to max)
-      int randomMax = max.intValue() - min.intValue() + 1;
+      short randomMax = (short) (max.shortValue() - min.shortValue() + (short) 1);
       for (int i = 0; i < count; i++) {
         numbers.add(random.nextInt(randomMax) + min.intValue());
       }
@@ -540,7 +544,7 @@ public class NumberUtil {
       }
     } else if (type == OperationType.LONG) {
       // Including the maximum number (from min to max)
-      long randomMax = max.longValue() - min.longValue() + 1l;
+      long randomMax = max.longValue() - min.longValue() + 1L;
       for (int i = 0; i < count; i++) {
         numbers.add(random.nextLong() * randomMax + min.longValue());
       }

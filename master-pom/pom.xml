@@ -3,20 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>ch.thn</groupId>
-		<artifactId>util</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 
 	<groupId>ch.thn.util</groupId>
 	<artifactId>master-pom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
 	<packaging>pom</packaging>
 
 	<name>Master-Pom</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java_version>1.7</java_version>
 	</properties>
 
 	<dependencies>
@@ -75,6 +73,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<module name="AvoidEscapedUnicodeCharacters">
+						<!-- Only allow unicode characters "\u..." if directly followed by a comment -->
+						<property name="allowEscapesForControlCharacters"
+							value="true" />
+					</module>
+				</configuration>
 			</plugin>
 
 		</plugins>

@@ -20,7 +20,8 @@
 		<module>string</module>
 		<module>number</module>
 		<module>file</module>
-		<module>gui</module>
+		<!-- Exclude for now. Does not compile. -->
+		<!-- <module>gui</module> -->
 	</modules>
 
 	<dependencies>

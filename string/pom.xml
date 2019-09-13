@@ -9,6 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>ch.thn.util</groupId>
 	<artifactId>string</artifactId>
 	<packaging>jar</packaging>
 

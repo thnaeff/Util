@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * File utility methods.
+ *
  * @author Thomas Naeff (github.com/thnaeff)
  *
  */
@@ -80,7 +82,7 @@ public class FileUtil {
   }
 
   /**
-   * Returns the current working directory
+   * Returns the current working directory.
    *
    * @return The current working directory
    */

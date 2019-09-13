@@ -1,6 +1,8 @@
 package ch.thn.util.file;
 
 /**
+ * An error in the file utility module.
+ *
  * @author Thomas Naeff (github.com/thnaeff)
  *
  */

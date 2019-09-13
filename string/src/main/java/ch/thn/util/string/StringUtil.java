@@ -1,4 +1,3 @@
-
 package ch.thn.util.string;
 
 import java.security.SecureRandom;
@@ -50,17 +49,17 @@ public class StringUtil {
   private static final String uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   private static final String lowercase = "abcdefghijklmnopqrstuvwxyz";
 
-  /** Matches single string ranges, like a-z and A-Z in "a-zA-z" */
+  /** Matches single string ranges, like a-z and A-Z in "a-zA-z". */
   private static Pattern stringRangePattern = Pattern.compile(".-.");
-  /** Matches a range group with one or more ranges, like "[a-z]" or "[a-zA-z]" */
+  /** Matches a range group with one or more ranges, like "[a-z]" or "[a-zA-z]". */
   private static Pattern stringRangePatternGroup = Pattern.compile("\\[(.-.)+\\]");
 
   /**
    * Matches a whole string only if there are only pattern groups, like "[a-zA-z][0-9]" but not
-   * "[a-zA-z]abc[0-999]"
+   * "[a-zA-z]abc[0-999]".
    */
   private static Pattern stringRangePatternGroupsOnly = Pattern.compile("(\\[(.-.)+\\])*");
-  /** Matches the beginning or a range group with multiple ranges, like "[a-xA" in "[a-xA-X1-9]" */
+  /** Matches the beginning or a range group with multiple ranges, like "[a-xA" in "[a-xA-X1-9]". */
   private static Pattern stringRangePatternGroupStart = Pattern.compile("(\\[.-.)([^\\]])");
 
   private static final SecureRandom random = new SecureRandom();
@@ -75,8 +74,6 @@ public class StringUtil {
    * @return The result of the comparison
    */
   public static boolean equals(String string1, String string2) {
-    // return (str1 == null ? str2 == null : str1.equals(str2));
-    // Now uses Objects.equals from Java7
     return Objects.equals(string1, string2);
   }
 
@@ -122,24 +119,14 @@ public class StringUtil {
           }
 
           return str.substring(0, end) + substitute;
+        default:
+          throw new StringUtilError("Invalid clip mode "
+              + clipMode);
       }
     }
 
     return str;
 
-  }
-
-  /**
-   * This method clips the string s in the center of the string, replacing excessive characters with
-   * "...". The length of the string can be defined by number of characters.<br>
-   *
-   * @param str The string to clip
-   * @param maxCharacterLength The maximum number of characters the resulting string should contain
-   * @return The clipped string, or the unmodified string if the maximum characters defined is
-   *         higher than the actual string
-   */
-  public static String clipStringCenter(String str, int maxCharacterLength) {
-    return clipStringCenter(str, maxCharacterLength, ClippingModeCenter.CENTER, 0, 0, 0, 0);
   }
 
   /**
@@ -197,6 +184,19 @@ public class StringUtil {
 
     return clipStringCenter(str, maxCharacterLength, ClippingModeCenter.RIGHT, 0, 0, rightMin,
         rightMax);
+  }
+
+  /**
+   * This method clips the string s in the center of the string, replacing excessive characters with
+   * "...". The length of the string can be defined by number of characters.<br>
+   *
+   * @param str The string to clip
+   * @param maxCharacterLength The maximum number of characters the resulting string should contain
+   * @return The clipped string, or the unmodified string if the maximum characters defined is
+   *         higher than the actual string
+   */
+  public static String clipStringCenter(String str, int maxCharacterLength) {
+    return clipStringCenter(str, maxCharacterLength, ClippingModeCenter.CENTER, 0, 0, 0, 0);
   }
 
   /**
@@ -262,6 +262,9 @@ public class StringUtil {
       case CENTER:
         // Do nothing
         break;
+      default:
+        throw new StringUtilError("Invalid clip center mode "
+            + clipCenterMode);
     }
 
     // Adjust left and right if they are out of bounds
@@ -291,7 +294,7 @@ public class StringUtil {
   }
 
   /**
-   * Checks if the pattern is present in the given input string the given number of times
+   * Checks if the pattern is present in the given input string the given number of times.
    *
    * @param pattern The pattern to look for
    * @param input The string to check against
@@ -353,7 +356,7 @@ public class StringUtil {
   }
 
   /**
-   * Removes all occurrences of the matching pattern in the input string
+   * Removes all occurrences of the matching pattern in the input string.
    *
    * @param pattern The pattern to look for
    * @param input The string to check against
@@ -488,17 +491,6 @@ public class StringUtil {
   }
 
   /**
-   * Returns all the strings in the input which match the given pattern.
-   *
-   * @param pattern The pattern to look for
-   * @param input The string to check against
-   * @return An ordered list of all matches
-   */
-  public static List<String> getMatching(Pattern pattern, String input) {
-    return getMatching(pattern, input, 0);
-  }
-
-  /**
    * Returns the first string in the input which match the given pattern.
    *
    * @param pattern The pattern to look for
@@ -512,6 +504,17 @@ public class StringUtil {
     } else {
       return null;
     }
+  }
+
+  /**
+   * Returns all the strings in the input which match the given pattern.
+   *
+   * @param pattern The pattern to look for
+   * @param input The string to check against
+   * @return An ordered list of all matches
+   */
+  public static List<String> getMatching(Pattern pattern, String input) {
+    return getMatching(pattern, input, 0);
   }
 
   /**
@@ -601,7 +604,7 @@ public class StringUtil {
    * For multiple ranges, use {@link #rangesExpand(String)}.<br>
    * For one or multiple ranges within a string, use {@link #rangesReplace(String)}.
    *
-   * @param rangesString An input string like "a-z" or "[#-/]", with or without the enclosing
+   * @param rangeString An input string like "a-z" or "[#-/]", with or without the enclosing
    *        brackets []
    * @return The expanded range
    */
@@ -651,8 +654,8 @@ public class StringUtil {
    */
   public static String rangesExpand(String rangesString) {
     if (rangesString == null || !matches(stringRangePatternGroupsOnly, rangesString)) {
-      throw new StringUtilError(
-          "Ranges string does not only contain ranges. A range needs to be between opening and closing brackets [].");
+      throw new StringUtilError("Ranges string does not only contain ranges. "
+          + "A range needs to be between opening and closing brackets [].");
     }
 
     List<String> ranges = rangesExtract(rangesString);
@@ -721,7 +724,7 @@ public class StringUtil {
   }
 
   /**
-   * Generates a random string with the given length and the selected characters
+   * Generates a random string with the given length and the selected characters.
    *
    * @param len The character length of the random string
    * @param numbers All numbers 0-9
